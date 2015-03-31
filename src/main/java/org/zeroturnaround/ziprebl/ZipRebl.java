@@ -1,8 +1,7 @@
 package org.zeroturnaround.ziprebl;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.PrimitiveIterator;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -10,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static java.lang.Integer.bitCount;
+import static java.nio.file.Files.write;
 
 /*
  * So how does ZipRebel work? Let’s take a look at this single byte example.
@@ -34,6 +34,29 @@ import static java.lang.Integer.bitCount;
  * @author shelajev, @date 3/30/15 12:10 PM
  */
 public class ZipRebl {
+
+  public static final String ZIPREBL_FILE_EXTENSION = ".zr";
+
+  /**
+   * Compresses the file on the given path using the revolutionary ZipRebel algorithm.
+   * Writes the results to a file near the original.
+   *
+   * @param path
+   *  - path of the file to compress
+   * @return
+   *  - path of the compressed file, same parent dir, same file name, '@{value #ZIPREBL_FILE_EXTENSION}' extension
+   */
+  public Path compressAndDump(Path path) {
+    try {
+      Path target = Paths.get(path.getParent().toString(), path.getFileName() + ZIPREBL_FILE_EXTENSION);
+      long result = compress(path);
+      write(target, Long.toHexString(result).getBytes());
+      return target;
+    }
+    catch (IOException e) {
+      throw new RuntimeException("Cannot compress file: " + path, e);
+    }
+  }
 
   /**
    * This method takes byte array and recursively compresses it using the revolutionary ZipRebel algorithm
