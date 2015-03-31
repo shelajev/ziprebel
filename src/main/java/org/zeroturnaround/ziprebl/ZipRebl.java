@@ -38,13 +38,12 @@ public class ZipRebl {
   public static final String ZIPREBL_FILE_EXTENSION = ".zr";
 
   /**
-   * Compresses the file on the given path using the revolutionary ZipRebel algorithm.
-   * Writes the results to a file near the original.
+   * Compresses the file on the given path using the revolutionary ZipRebel algorithm. Writes the results to a file near the original.
    *
    * @param path
-   *  - path of the file to compress
-   * @return
-   *  - path of the compressed file, same parent dir, same file name, '@{value #ZIPREBL_FILE_EXTENSION}' extension
+   *   - path of the file to compress
+   *
+   * @return - path of the compressed file, same parent dir, same file name, '@{value #ZIPREBL_FILE_EXTENSION}' extension
    */
   public Path compressAndDump(Path path) {
     try {
@@ -99,12 +98,15 @@ public class ZipRebl {
    * Internal method that we recursively call to compress bytes
    */
   private long compress0(byte[] bytes) {
-    return StreamSupport.stream(Spliterators.spliterator(new Bytes(bytes), bytes.length, Spliterator.ORDERED), false).collect(Collectors.summingLong(b -> bitCount(b)));
+    return StreamSupport.stream(Spliterators.spliterator(new Bytes(bytes),
+        bytes.length,
+        Spliterator.ORDERED),
+      false)
+      .collect(Collectors.summingLong(b -> bitCount(b)));
   }
 
   /**
-   * convert a long to byte[] representation.
-   * Used mainly for the compression, when we need to iterate further.
+   * convert a long to byte[] representation. Used mainly for the compression, when we need to iterate further.
    */
   private byte[] long2bytes(long l) {
     return new byte[] {
@@ -121,10 +123,9 @@ public class ZipRebl {
   }
 
   /**
-   * Represent byte[] as iterator of ints.
-   * Be generous with synchronization.
+   * Represent byte[] as iterator of ints. Be generous with synchronization.
    */
-  public static class Bytes implements PrimitiveIterator.OfInt{
+  public static class Bytes implements PrimitiveIterator.OfInt {
 
     private final byte[] bytes;
     private volatile int idx;

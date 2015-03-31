@@ -36,14 +36,17 @@ public class ZipReblTest {
   }
 
   @Test public void testCompressFile() throws URISyntaxException {
-    long result = new ZipRebl().compress(Paths.get(this.getClass().getClassLoader().getResource(this.getClass().getName().replace('.', '/') + ".class").toURI()));
+    Path original = Paths.get(this.getClass().getClassLoader().getResource(
+      this.getClass().getName().replace('.', '/') + ".class").toURI());
+    long result = new ZipRebl().compress(original);
     assertEquals("compress all zeroes should give 1", 1, result);
   }
 
   @Test public void testCompressAndDumpFile() throws URISyntaxException, IOException {
     Path cleanup = null;
     try {
-      Path original = Paths.get(this.getClass().getClassLoader().getResource(this.getClass().getName().replace('.', '/') + ".class").toURI());
+      Path original = Paths.get(this.getClass().getClassLoader().getResource(
+        this.getClass().getName().replace('.', '/') + ".class").toURI());
       Path target = new ZipRebl().compressAndDump(original);
       cleanup = target;
       assertTrue("Compressed file doesn't exist: " + target, Files.exists(target));
@@ -51,7 +54,7 @@ public class ZipReblTest {
       assertEquals("compress all zeroes should give 1", "1", result);
     }
     finally {
-      if(cleanup != null) {
+      if (cleanup != null) {
         Files.deleteIfExists(cleanup);
       }
     }
