@@ -1,11 +1,9 @@
-package org.zeroturnaround.ziprebl;
+package org.zeroturnaround.ziprebel;
 
 import org.junit.Test;
-import org.zeroturnaround.ziprebl.ZipRebl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,27 +16,27 @@ import static org.junit.Assert.*;
  *
  * @author shelajev, @date 3/30/15 12:10 PM
  */
-public class ZipReblTest {
+public class ZipRebelTest {
 
   @Test public void testCompressOne() {
-    long result = new ZipRebl().compress(new byte[] { 1 });
+    long result = new ZipRebel().compress(new byte[] { 1 });
     assertEquals("compress should return '1'", 1, result);
   }
 
   @Test public void testCompressZero() {
-    long result = new ZipRebl().compress(new byte[] { 0 });
+    long result = new ZipRebel().compress(new byte[] { 0 });
     assertEquals("compress all zeroes should give 0", 0, result);
   }
 
   @Test public void testCompressRecursive() {
-    long result = new ZipRebl().compress(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
+    long result = new ZipRebel().compress(new byte[] { 1, 1, 1, 1, 1, 1, 1, 1 });
     assertEquals("compress all zeroes should give 1", 1, result);
   }
 
   @Test public void testCompressFile() throws URISyntaxException {
     Path original = Paths.get(this.getClass().getClassLoader().getResource(
       this.getClass().getName().replace('.', '/') + ".class").toURI());
-    long result = new ZipRebl().compress(original);
+    long result = new ZipRebel().compress(original);
     assertEquals("compress all zeroes should give 1", 1, result);
   }
 
@@ -47,7 +45,7 @@ public class ZipReblTest {
     try {
       Path original = Paths.get(this.getClass().getClassLoader().getResource(
         this.getClass().getName().replace('.', '/') + ".class").toURI());
-      Path target = new ZipRebl().compressAndDump(original);
+      Path target = new ZipRebel().compressAndDump(original);
       cleanup = target;
       assertTrue("Compressed file doesn't exist: " + target, Files.exists(target));
       String result = new String(Files.readAllBytes(target));

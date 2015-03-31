@@ -1,4 +1,4 @@
-package org.zeroturnaround.ziprebl;
+package org.zeroturnaround.ziprebel;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -33,9 +33,9 @@ import static java.nio.file.Files.write;
  *
  * @author shelajev, @date 3/30/15 12:10 PM
  */
-public class ZipRebl {
+public class ZipRebel {
 
-  public static final String ZIPREBL_FILE_EXTENSION = ".zr";
+  public static final String ZIPREBEL_FILE_EXTENSION = ".zr";
 
   /**
    * Compresses the file on the given path using the revolutionary ZipRebel algorithm. Writes the results to a file near the original.
@@ -43,11 +43,11 @@ public class ZipRebl {
    * @param path
    *   - path of the file to compress
    *
-   * @return - path of the compressed file, same parent dir, same file name, '@{value #ZIPREBL_FILE_EXTENSION}' extension
+   * @return - path of the compressed file, same parent dir, same file name, '@{value #ZIPREBEL_FILE_EXTENSION}' extension
    */
   public Path compressAndDump(Path path) {
     try {
-      Path target = Paths.get(path.getParent().toString(), path.getFileName() + ZIPREBL_FILE_EXTENSION);
+      Path target = Paths.get(path.getParent().toString(), path.getFileName() + ZIPREBEL_FILE_EXTENSION);
       long result = compress(path);
       write(target, Long.toHexString(result).getBytes());
       return target;
